@@ -1,6 +1,5 @@
 import express from "express"
 import cors from "cors"
-import dotenv from "dotenv"
 import gameRouter from "./routes/game.routes.js"
 import authRouter from "./routes/auth.routes.js"
 import cookieParser from "cookie-parser";
@@ -11,8 +10,6 @@ import { Server } from "socket.io"
 import socketMiddleware from "./middlewares/socket.middleware.js"
 import socketSetup from "./socketSetup.js"
 import chatRouter from "./routes/chat.routes.js"
-
-dotenv.config();
 
 const app = express();
 
