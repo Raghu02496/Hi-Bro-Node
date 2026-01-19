@@ -28,3 +28,8 @@ export const userSchema = new mongoose.Schema({
     userName : {type : String, required : true, unique : true},
     password : {type : String, required : true}
 })
+
+export const sessionSchema = new mongoose.Schema({
+    userId : {type : String, required : true, unique : true},
+    refreshToken : {type : String, required : true, unique : true},
+})
