@@ -1,7 +1,7 @@
 import express from "express"
 import cors from "cors"
 import gameRouter from "./routes/game.routes.js"
-import authRouter from "./routes/auth.routes.js"
+import { authPrivateRouter, authPublicRouter, authRefreshRouter } from "./routes/auth.routes.js"
 import cookieParser from "cookie-parser";
 import connectMongo  from "./mongo.js"
 import authMiddleware from "./middlewares/api.middleware.js"
@@ -10,6 +10,7 @@ import { Server } from "socket.io"
 import socketMiddleware from "./middlewares/socket.middleware.js"
 import socketSetup from "./socketSetup.js"
 import chatRouter from "./routes/chat.routes.js"
+import refreshMiddleware from "./middlewares/refresh.middleware.js";
 
 const app = express();
 
@@ -34,5 +35,6 @@ server.listen(process.env.PORT, () => {
     console.log(`Server Listening on PORT: ${process.env.PORT}`);
 });
 
-app.use('/protected', authMiddleware, gameRouter, chatRouter);
-app.use('/public',authRouter)
+app.use('/x/protected', authMiddleware, gameRouter, chatRouter, authPrivateRouter);
+app.use('/y/protected', refreshMiddleware, authRefreshRouter);
+app.use('/public', authPublicRouter)

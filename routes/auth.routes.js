@@ -1,10 +1,10 @@
 import express from "express"
 import { login, logout, refresh } from "../controllers/auth.controllers.js";
 
-const authRouter = express.Router();
+export const authPublicRouter = express.Router();
+export const authPrivateRouter = express.Router();
+export const authRefreshRouter = express.Router();
 
-authRouter.post('/login',login)
-authRouter.post('/logout',logout)
-authRouter.post('/refresh',refresh)
-
-export default authRouter
+authPublicRouter.post('/login',login)
+authRefreshRouter.post('/refresh',refresh)
+authPrivateRouter.post('/logout',logout)

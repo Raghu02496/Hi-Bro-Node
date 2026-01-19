@@ -52,17 +52,13 @@ export async function login(request, response){
 
 export async function refresh(request, response){
     try {
-       const refreshToken = request.cookies.refreshToken;
-       if(!refreshToken){
-        response.status(401).json({ok: false, data: 'No refresh token found'});
-       }
-       const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET);
-       const sessionData = await sessionModel.findOne({userId : decoded.id})
+       
+       const sessionData = await sessionModel.findOne({userId : request.userId})
 
        if(!sessionData){
         response.status(401).json({ok: false, data: 'Not logged in'});
        }
-       const valid = bcrypt.compareSync(refreshToken, sessionData.refreshToken);
+       const valid = bcrypt.compareSync(request.cookies.refreshToken, sessionData.refreshToken);
        if(!valid) return response.json({ok: false, data: "Invalid refresh token"})
 
        const accessToken = jwt.sign({id : request.userId}, process.env.JWT_SECRET, { expiresIn : '1h'})
@@ -75,13 +71,19 @@ export async function refresh(request, response){
 
 export async function logout(request, response) {
     try{
-        response.clearCookie("token",{
+        response.clearCookie("accessToken",{
             httpOnly: true,
             secure: process.env.PROD,
             sameSite: 'None',
             maxAge : 3600000,
             path : '/'
         });
+
+        const sessionData = await sessionModel.findOne({userId : request.userId})
+
+        if(sessionData){
+            await sessionModel.deleteMany({ userId : request.userId});
+        }
         return response.json({ ok: true, message: "Logged out successfully" });
     }catch(error){
         console.log(error,'error')
