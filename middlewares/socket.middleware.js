@@ -6,7 +6,7 @@ const cookieMiddleware = cookieParser();
 export default async function (socket, next) {
 
     cookieMiddleware(socket.request, {}, () => {
-        const token = socket.request.cookies.token
+        const token = socket.handshake.auth.accessToken
 
         if (!token) return next(new Error('No token provided'));
 
