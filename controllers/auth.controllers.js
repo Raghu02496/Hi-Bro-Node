@@ -35,7 +35,7 @@ export async function login(request, response) {
             httpOnly: true,
             secure: process.env.PROD,
             sameSite: 'None',
-            maxAge: 3600000,
+            maxAge: 7 * 24 * 60 * 60 * 1000,
             path: '/'
         })
 
