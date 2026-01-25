@@ -11,12 +11,14 @@ import socketMiddleware from "./middlewares/socket.middleware.js"
 import socketSetup from "./socketSetup.js"
 import chatRouter from "./routes/chat.routes.js"
 import refreshMiddleware from "./middlewares/refresh.middleware.js";
+import helmet from "helmet";
 
 const app = express();
 
 app.use(
     express.json(),
     cookieParser(),
+    helmet(),
     cors({
         origin: process.env.ORIGIN,
         credentials: true

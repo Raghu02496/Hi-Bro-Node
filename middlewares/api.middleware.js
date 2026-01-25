@@ -10,6 +10,6 @@ export default async function authMiddleware(request, response, next){
         request.userId = decoded.id;
         next();
       } catch (err) {
-        response.status(403).json({ok : false, data: 'Invalid or expired token' });
+        response.status(401).json({ok : false, data: 'Invalid or expired token' });
       }
 }
