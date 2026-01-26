@@ -37,6 +37,6 @@ server.listen(process.env.PORT, () => {
     console.log(`Server Listening on PORT: ${process.env.PORT}`);
 });
 
-app.use('/x/protected', authMiddleware, gameRouter, chatRouter, authPrivateRouter);
-app.use('/y/protected', refreshMiddleware, authRefreshRouter);
-app.use('/public', authPublicRouter)
+app.use('/protected/game', authMiddleware, gameRouter, chatRouter, authPrivateRouter);
+app.use('/protected/auth', refreshMiddleware, authRefreshRouter);
+app.use('/public/auth', authPublicRouter)
