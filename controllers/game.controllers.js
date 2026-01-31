@@ -164,10 +164,11 @@ export async function generateCase(request, response) {
                                 cluePool: [""]
                             }`
                 }
-            ]
+            ],
+            response_format: { type: "json_object" }
         });
     
-        const reply = JSON.parse(completion.choices[0].message.content);
+        const reply = completion.choices[0].message.content;
         reply.suspects = reply.suspects.map(element => {
             const objectId = new mongoose.Types.ObjectId()
             return {_id : objectId,...element}
